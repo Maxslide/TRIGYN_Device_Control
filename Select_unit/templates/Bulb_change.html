@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../../../static/materialize/css/materialize.min.css"
+        media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="deep-orange lighten-3">
+    <h1 class="center-align red-text darken-2">Select The device</h1>
+    <div class="divider"></div>
+    <br>
+    <div class="row center">
+        <h6>{{location}}</h6>
+    </div>
+    <div class="row container" style="margin-top: 2%;">
+    <table>
+    <thead>
+        <tr>
+        <th>Name of change_maker</th>
+        <th>State</th>
+        <th>Color</th>
+        <th>Brightness</th>
+        <th>Effect</th>
+        </tr>
+    </thead>
+    {% for ac in all_AC %}
+            <tr>
+                <td>{{ac.Name_of_changeMaker}}</td>
+                <td>{{ac.current_state}}</td>
+                <td>{{ac.Color}}</td>
+                <td>{{ac.Brightness}}</td>
+                <td>{{ac.Effect}}</td>
+            </tr>
+    {% endfor %}
+    </table>
+    </div>
+    {% for ac in all_AC %} 
+    {% if forloop.first %}
+    <div class="row container center">
+        <a class="btn-small red" href="/Select_unit/Bulb/Change/{{ac.Bulb_id.id}}">Make changes</a>
+    </div>    
+    {% endif %}
+    {% endfor %}
+    <script type="text/javascript" src="../../../static/materialize/js/materialize.min.js"></script>
+</body>
+</html>

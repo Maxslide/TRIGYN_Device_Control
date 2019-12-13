@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../../../../static/materialize/css/materialize.min.css"
+        media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="deep-orange lighten-3">
+    <h1 class="center-align red-text darken-2">Select The device</h1>
+    <div class="divider"></div>
+    <br>
+    <div class="row">
+    <form class="col s12" method="POST" action="">
+    {% csrf_token %}
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="Fan_speed" type="text" name="State" class="validate">
+          <label for="Fan_speed">State</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="Placeholder" id = "Swing" name="schedule_on" type="text" class="validate">
+          <label for="Swing">Schedule_On_time</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="off" name="schedule_off" type="text" class="validate">
+          <label for="off">schedule_off_time</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="week" name="week" type="text" class="validate">
+          <label for="week">Follow schedule for the week</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="Name" name="Name" type="text" class="validate">
+          <label for="Name">Name of the changeMaker</label>
+        </div>
+        <input type="hidden" id="ACId" name="acId" value={{all_AC}}>
+        <input type="submit" value="Post"/>
+      </div>
+    </form>
+  </div>
+    
+    <script type="text/javascript" src="../../../../static/materialize/js/materialize.min.js"></script>
+</body>
+
+</html>

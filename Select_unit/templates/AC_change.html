@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../../../static/materialize/css/materialize.min.css"
+        media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="deep-orange lighten-3">
+    <h1 class="center-align red-text darken-2">Select The device</h1>
+    <div class="divider"></div>
+    <br>
+    <div class="row center">
+        <h6>{{location}}</h6>
+    </div>
+    <div class="row container" style="margin-top: 2%;">
+    <table>
+    <thead>
+        <tr>
+        <th>Name of change_maker</th>
+        <th>temp_after_change</th>
+        <th>fanspeed_after_change</th>
+        <th>Swing 1/0 On/off</th>
+        </tr>
+    </thead>
+    {% for ac in all_AC %}
+            <tr>
+                <td>{{ac.Name_of_changeMaker}}</td>
+                <td>{{ac.current_temp}}</td>
+                <td>{{ac.current_fan}}</td>
+                <td>{{ac.current_swing}}</td>
+            </tr>
+    {% endfor %}
+    </table>
+    </div>
+    {% for ac in all_AC %} 
+    {% if forloop.first %}
+    <div class="row container center">
+        <a class="btn-small red" href="/Select_unit/AC/Change/{{ac.AC_id.id}}">Make changes</a>
+    </div>    
+    {% endif %}
+    {% endfor %}
+    <script type="text/javascript" src="../../../static/materialize/js/materialize.min.js"></script>
+</body>
+</html>

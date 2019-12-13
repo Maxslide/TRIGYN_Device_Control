@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../../static/materialize/css/materialize.min.css"
+        media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="deep-orange lighten-3">
+    <h1 class="center-align red-text darken-2">Select The device</h1>
+    <div class="divider"></div>
+    <br>
+    <div class="row" style="margin-top: 2%;">
+    {% for ac in all_AC %}
+            <div class="col s12 m4">
+                <a href="/Select_unit/Bulb/{{ac.id}}/">
+                <div class="card-panel amber darken-4" style="padding-top: 10%;padding-bottom: 10%;">
+                    <span class="white-text center-align ">
+                        <h1>{{ac.Bulb_name}}</h1>
+                    </span>
+                </div>
+            </a>
+            </div>
+    {% endfor %}
+    </div>
+    <script type="text/javascript" src="../../static/materialize/js/materialize.min.js"></script>
+</body>
+
+</html>

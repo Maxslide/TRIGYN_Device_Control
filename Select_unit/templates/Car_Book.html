@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../../../static/materialize/css/materialize.min.css"
+        media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="deep-orange lighten-3">
+    <h1 class="center-align red-text darken-2">Select The device</h1>
+    <div class="divider"></div>
+    <br>
+    <div class="row container" style="margin-top: 2%;">
+        <form class="col s12" method="POST" action="">
+    {% csrf_token %}
+        <div class="input-field col s12">
+          <input id="Name" name="Name" type="text" class="validate">
+          <label for="Name">Name</label>
+        </div>
+        {% for i in Book_Display %}
+            <div class="row container center m4 s12">
+                {% if i == '0' %}
+                <button class="white black-text" id = {{forloop.counter}} name="{{forloop.counter}}" value = "0" disabled>
+                    Free_To_park
+                </button>
+                {% else %}
+                <button class="Red black-text" id = {{forloop.counter}} name="{{forloop.counter}}" value = "1" disabled>
+                    vehicle parked
+                </button>
+                {% endif %}
+            </div> 
+        {% endfor %}
+        <div class="input-field col s12">
+          <input id="booking_val" name="booking" type="text" class="validate">
+          <label for="booking_val">Enter The Car park you want to book</label>
+        </div>
+        <input type="submit" value="Post" id = "submit"/>
+      </div>
+    </form>
+    </div>
+    <script type="text/javascript" src="../../../static/materialize/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        function Val_change()
+        {
+            this.value = "1"
+        }
+    </script>
+
+</body>
+</html>
