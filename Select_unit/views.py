@@ -2,11 +2,18 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import *
-from geopy.geocoders import Nominatim
+from datetime import datetime
+import pandas as pd
+import requests
+import json
+
+# from geopy.geocoders import Nominatim
 # Create your views here.
 
-geolocator = Nominatim(user_agent="specify_your_app_name_here")
-
+# geolocator = Nominatim(user_agent="specify_your_app_name_here")
+headers = {'Accept': 'application/json',
+           'Content-Type': 'application/json', }
+swing = ["OFF", "ON"]
 def index(request):
     template = loader.get_template('index.html')
     context = {}
@@ -26,7 +33,7 @@ def ac_change(request, ac_id):
     newlist.append(ACobj.Ac_Latitude)
     newlist.append(",")
     newlist.append(ACobj.Ac_Longitude)
-    location = geolocator.reverse("".join(newlist))
+    location = ""
     context = {'all_AC': al_AC,
                 'location' : location
                }
@@ -34,6 +41,7 @@ def ac_change(request, ac_id):
 
 
 def ac_makechange(request, acch_id):
+    Ac_id = ['chumma', 'urn:ngsi-ld:ACFinalp:1/attrs','urn:ngsi-ld:ACFinalp:2/attrs','urn:ngsi-ld:ACFinalp:3/attrs']
     if request.method == 'POST':
         print(request.POST.get('Temp'))
         print(request.POST.get('Fan_speed'))
@@ -48,6 +56,39 @@ def ac_makechange(request, acch_id):
         post.Name_of_changeMaker = request.POST.get('Name')
         post.AC_id = AC.objects.filter(id=int(request.POST.get('acId')))[0]
         post.save()
+        reqtemp = int(request.POST.get('Temp'))
+        reqfan = int(request.POST.get('Fan_speed'))
+        reqswing = swing[int(request.POST.get('Swing'))]
+        reqname = request.POST.get('Name')
+        d = pd.to_datetime(datetime.now())
+        d = datetime.timestamp(d)
+        data = {
+                "testtime": {
+                    "value": d,
+                    "type": "Number"
+                },
+                "temp": {
+                    "value": reqtemp,
+                    "type": "Number"
+                },
+                "fan": {
+                    "value": reqfan,
+                    "type": "Number"
+                }, "swing": {
+                    "value": reqswing,
+                    "type": "Text"
+                },
+                "name": {
+                    "value": reqname,
+                    "type": "Text"
+                }
+            }
+        url = 'http://0.0.0.0:1026/v2/entities/' + Ac_id[int(acch_id)]
+        print(url)
+        response = requests.patch(
+            url, headers=headers, data=json.dumps(data))
+        print(response)
+        
         al_AC = ChangeInAC.objects.filter(
             AC_id=AC.objects.filter(id=(int(request.POST.get('acId'))))[0])
         context = {'all_AC': acch_id}
@@ -71,6 +112,7 @@ def fan_change(request, ac_id):
 
 
 def fan_makechange(request, acch_id):
+    Ac_id = ['chumma','urn:ngsi-ld:FANF:1/attrs','urn:ngsi-ld:FANF:2/attrs']
     if request.method == 'POST':
         post = ChangeInFAN()
         # post.current_temp = request.POST.get('Temp')
@@ -78,7 +120,34 @@ def fan_makechange(request, acch_id):
         post.current_swing = int(request.POST.get('Swing'))
         post.Name_of_changeMaker = request.POST.get('Name')
         post.FAN_id = FAN.objects.filter(id=int(request.POST.get('acId')))[0]
+        reqfan = int(request.POST.get('Fan_speed'))
+        reqswing = swing[int(request.POST.get('Swing'))]
+        reqname = request.POST.get('Name')
         post.save()
+        d = pd.to_datetime(datetime.now())
+        d = datetime.timestamp(d)
+        data = {
+                "testtime": {
+                    "value": d,
+                    "type": "Number"
+                },
+                "fan": {
+                    "value": reqfan,
+                    "type": "Number"
+                }, "swing": {
+                    "value": reqswing,
+                    "type": "Text"
+                },
+                "name": {
+                    "value": reqname,
+                    "type": "Text"
+                }
+            }
+        url = 'http://0.0.0.0:1026/v2/entities/' + Ac_id[int(acch_id)]
+        print(url)
+        response = requests.patch(
+            url, headers=headers, data=json.dumps(data))
+        print(response)
         al_AC = ChangeInFAN.objects.filter(
             FAN_id=FAN.objects.filter(id=(int(request.POST.get('acId'))))[0])
         context = {'all_AC': acch_id}
@@ -112,6 +181,7 @@ def Geyser_makechange(request, acch_id):
         post.Name_of_changeMaker=request.POST.get('Name')
         post.Geyser_id=Geyser.objects.filter(
             id=int(request.POST.get('acId')))[0]
+        
         post.save()
         al_AC=ChangeInGeyser.objects.filter(
             Geyser_id=Geyser.objects.filter(id=(int(request.POST.get('acId'))))[0])
@@ -137,7 +207,7 @@ def Bulb_change(request, ac_id):
     newlist.append(ACobj.Bulb_Latitude)
     newlist.append(",")
     newlist.append(ACobj.Bulb_Longitude)
-    location = geolocator.reverse("".join(newlist))
+    location = ""
     context = {'all_AC': al_AC,
                 'location' : location
                }
@@ -145,6 +215,7 @@ def Bulb_change(request, ac_id):
 
 
 def Bulb_makechange(request, acch_id):
+    Ac_id = ['chumma','urn:ngsi-ld:Bulb:1/attrs','urn:ngsi-ld:Bulb:2/attrs']
     if request.method == 'POST':
         post = ChangeInBulb()
         # post.current_temp = request.POST.get('Temp')
@@ -154,7 +225,37 @@ def Bulb_makechange(request, acch_id):
         post.Effect=int(request.POST.get('Effect'))
         post.Name_of_changeMaker=request.POST.get('Name')
         post.Bulb_id=Bulb.objects.filter(id=int(request.POST.get('acId')))[0]
+        reqbright = int(request.POST.get('Brightness'))
+        reqcolor = request.POST.get('Color')
+        reqEffect = int(request.POST.get('Effect'))
+        reqname = request.POST.get('Name')
+        
+        d = pd.to_datetime(datetime.now())
+        d = datetime.timestamp(d)
+        data = {
+                "testtime": {
+                    "value": d,
+                    "type": "Number"
+                },
+                "Brightness": {
+                    "value": reqbright,
+                    "type": "Number"
+                }, "Color": {
+                    "value": reqcolor,
+                    "type": "Text"
+                }, "Effect" : {"value" : reqEffect, "type" : "Number"},
+
+                "name": {
+                    "value": reqname,
+                    "type": "Text"
+                }
+            }
         post.save()
+        url = 'http://0.0.0.0:1026/v2/entities/' + Ac_id[int(acch_id)]
+        print(url)
+        response = requests.patch(
+            url, headers=headers, data=json.dumps(data))
+        print(response)
         al_AC=ChangeInBulb.objects.filter(Bulb_id=Bulb.objects.filter(id=(int(request.POST.get('acId'))))[0])
         context={'all_AC': acch_id}
         return render(request, 'Bulb_MakeChange.html', context)

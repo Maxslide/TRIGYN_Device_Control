@@ -25,14 +25,14 @@
         </div>
         {% for i in Book_Display %}
             <div class="row container center m4 s12">
-                {% if i == '0' %}
-                <button class="white black-text" id = {{forloop.counter}} name="{{forloop.counter}}" value = "0" disabled>
+               {% if i == '0' %}
+                <a class="btn-large white black-text" id = {{forloop.counter}} name="{{forloop.counter}}" value = "0">
                     Free_To_park
-                </button>
+                </a>
                 {% else %}
-                <button class="Red black-text" id = {{forloop.counter}} name="{{forloop.counter}}" value = "1" disabled>
+                <a class="btn-large red black-text" id = {{forloop.counter}} name="{{forloop.counter}}" value = "1" >
                     vehicle parked
-                </button>
+                </a>
                 {% endif %}
             </div> 
         {% endfor %}
