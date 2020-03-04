@@ -85,9 +85,9 @@ def ac_makechange(request, acch_id):
             }
         url = 'http://0.0.0.0:1026/v2/entities/' + Ac_id[int(acch_id)]
         print(url)
-        response = requests.patch(
-            url, headers=headers, data=json.dumps(data))
-        print(response)
+        # response = requests.patch(
+        #     url, headers=headers, data=json.dumps(data))
+        # print(response)
         
         al_AC = ChangeInAC.objects.filter(
             AC_id=AC.objects.filter(id=(int(request.POST.get('acId'))))[0])
@@ -324,6 +324,20 @@ def Car_book(request):
             newBook = i
             print(newBook)
         context = {'Book_Display' : str(newBook.Booked_Code)}
+        d = pd.to_datetime(datetime.now())
+        d = datetime.timestamp(d)
+        data = {
+                    "testtime": {
+                        "value": d,
+                        "type": "Number"
+                    },
+                    "Car1" : {"value" : temp[0], "type" : "Number"},"Car2" : {"value" : temp[1], "type" : "Number"},"Car3" : {"value" : temp[2], "type" : "Number"},"Car4" : {"value" : temp[3], "type" : "Number"},"Car5" : {"value" : temp[4], "type" : "Number"},"Car6" : {"value" : temp[5], "type" : "Number"}
+                }
+        url = 'http://0.0.0.0:1026/v2/entities/urn:ngsi-ld:Car:2/attrs'
+        print(url)
+        response = requests.patch(
+            url, headers=headers, data=json.dumps(data))
+        print(response)
         return render(request, 'Car_Book.html', context)
     Book = Car_Book.objects.all()
     newBook = ""
@@ -332,6 +346,9 @@ def Car_book(request):
         newBook = i
         print(newBook)
     context = {'Book_Display' : str(newBook.Booked_Code)}
+           
+         
+    
     return render(request, 'Car_Book.html', context)
     
 def Car_remove(request):
@@ -359,6 +376,22 @@ def Car_remove(request):
             newBook = i
             print(newBook)
         context = {'Book_Display' : str(newBook.Booked_Code)}
+        d = pd.to_datetime(datetime.now())
+        d = datetime.timestamp(d)
+        data = {
+                    "testtime": {
+                        "value": d,
+                        "type": "Number"
+                    },
+                    "Car1" : {"value" : temp[0], "type" : "Number"},"Car2" : {"value" : temp[1], "type" : "Number"},"Car3" : {"value" : temp[2], "type" : "Number"},"Car4" : {"value" : temp[3], "type" : "Number"},"Car5" : {"value" : temp[4], "type" : "Number"},"Car6" : {"value" : temp[5], "type" : "Number"}
+                }
+        url = 'http://0.0.0.0:1026/v2/entities/urn:ngsi-ld:Car:2/attrs'
+        print(url)
+        response = requests.patch(
+            url, headers=headers, data=json.dumps(data))
+        print(response)
+        
+        
         return render(request, 'Car_remove.html', context)
     Book = Car_Book.objects.all()
     newBook = ""

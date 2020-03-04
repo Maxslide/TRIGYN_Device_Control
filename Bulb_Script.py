@@ -54,19 +54,8 @@ for i in range(1, 31):
                 "testtime": {
                     "value": d,
                     "type": "Number"
-                },
-                "Brightness": {
-                    "value": 0,
-                    "type": "Number"
-                }, "Color": {
-                    "value": "OFF",
-                    "type": "Text"
-                }, "Effect" : {"value" : 0, "type" : "Number"},
+                }, "Car1" : {"value" : 0, "type" : "Number"},"Car2" : {"value" : 0, "type" : "Number"},"Car3" : {"value" : 0, "type" : "Number"},"Car4" : {"value" : 0, "type" : "Number"},"Car5" : {"value" : 0, "type" : "Number"},"Car6" : {"value" : 0, "type" : "Number"},
 
-                "name": {
-                    "value": random.choice(names),
-                    "type": "Text"
-                }
             }
         else:
             # data = {'id': name, 'type': 'AC_Change', 'address': {'streetAddress': 'check',
